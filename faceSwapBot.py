@@ -43,7 +43,7 @@ def handle(msg):
             dloadID = (msg['photo'][0]['file_id'])
             fileObject = SwapBot.getFile(dloadID)
             filePath = fileObject['file_path']
-            req = requests.get("https://api.telegram.org/file/bot464773380:AAEYFPFNliELLz3DNJeHEAxa29cEas26ZnM/" + filePath)
+            req = requests.get("https://api.telegram.org/file/bot<insert-bot_key>/" + filePath)
             if req.status_code == 200:
                 with open("./mask" + str(chat_id) + ".jpg", 'wb') as f:
                     f.write(req.content)
@@ -58,7 +58,7 @@ def handle(msg):
         elif content_type == 'photo' and not idList[chat_id].isAnImageSet == True:
             SwapBot.sendMessage(chat_id, "Great photo, but there is nothing I can swap onto it. Use the /set command first")
 
-TOKEN = "464773380:AAEYFPFNliELLz3DNJeHEAxa29cEas26ZnM"
+TOKEN = <insert-bot-key>
 SwapBot = telepot.Bot(TOKEN)
 MessageLoop(SwapBot, handle).run_as_thread()
 print ('Listening ...')
