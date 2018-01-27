@@ -13,18 +13,23 @@ class State:
         self.isAnImageSet = bool1
         self.settingMode = bool2
 
-state = State(False, False)
+#state = State(False, False)
+
+idList = {}
 
 def handle(msg):
         content_type, chat_type, chat_id = telepot.glance(msg)
         print(content_type, chat_type, chat_id)
 
         if content_type == 'text':
-            if msg['text'] == "/set":
-                state.settingMode = True
+            if msg['text'] == "/start":
+                idList[chat_id] = State(False, False)
+
+            elif msg['text'] == "/set":
+                idList[chat_id].settingMode = True
 
             elif msg['text'] == "/stop":
-                state.isAnImageSet = False
+                idList[chat_id].isAnImageSet = False
                 
                 #Wipe the history.
             
@@ -33,27 +38,27 @@ def handle(msg):
             else:
                 SwapBot.sendMessage(chat_id, "I'd love to talk, but I'm a busy bot")
         
-        elif content_type == 'photo' and state.settingMode == True:
-            state.settingMode = False
+        elif content_type == 'photo' and idList[chat_id].settingMode == True:
+            idList[chat_id].settingMode = False
             dloadID = (msg['photo'][0]['file_id'])
             fileObject = SwapBot.getFile(dloadID)
             filePath = fileObject['file_path']
-            req = requests.get("https://api.telegram.org/file/bot<insert-bot-token>/" + filePath)
+            req = requests.get("https://api.telegram.org/file/bot464773380:AAEYFPFNliELLz3DNJeHEAxa29cEas26ZnM/" + filePath)
             if req.status_code == 200:
-                with open("./mask.jpg", 'wb') as f:
+                with open("./mask" + str(chat_id) + ".jpg", 'wb') as f:
                     f.write(req.content)
-                state.isAnImageSet = True
+                idList[chat_id].isAnImageSet = True
 
             
         
-        elif content_type == 'photo' and state.isAnImageSet == True:
+        elif content_type == 'photo' and idList[chat_id].isAnImageSet == True:
             print("whatever")
             #Business as usual
 
-        elif content_type == 'photo' and not state.isAnImageSet == True:
+        elif content_type == 'photo' and not idList[chat_id].isAnImageSet == True:
             SwapBot.sendMessage(chat_id, "Great photo, but there is nothing I can swap onto it. Use the /set command first")
 
-TOKEN = <insert-bot-token>
+TOKEN = "464773380:AAEYFPFNliELLz3DNJeHEAxa29cEas26ZnM"
 SwapBot = telepot.Bot(TOKEN)
 MessageLoop(SwapBot, handle).run_as_thread()
 print ('Listening ...')
