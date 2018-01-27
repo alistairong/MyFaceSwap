@@ -20,6 +20,7 @@ def replace_all(source, destination, scale=1.04):
 
         source = source.resize((width, height), Image.ANTIALIAS)
         destination.paste(source, (left, top, right, bottom))
+    destination = destination.convert("RGB")
     return destination
 
 def crop_image(image_path, scale=1.04):
@@ -38,10 +39,10 @@ def crop_image(image_path, scale=1.04):
     image_pil = Image.open(image_path)
     return image_pil.crop((left_result, top_result, right_result, bottom_result))
 
-def faceSwap(source_path, destination_path, scale=1.04):
+def faceSwap(source_path, destination_path, userid="default_" ,scale=1.04):
     crop_image(source_path, scale).save("cropped.jpg")
-    return replace_all("cropped.jpg", destination_path, scale)
+    replace_all("cropped.jpg", destination_path, scale).save(userid + 'result.jpg')
 
 if debug:
-    faceSwap("yara.jpg", "test2.jpg").show()
-        
+    faceSwap("temp.jpg", "test2.jpg")
+    Image.open('result.jpg').show()
