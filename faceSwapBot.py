@@ -12,7 +12,7 @@ def handle(msg):
         elif content_type == 'photo':
             SwapBot.sendMessage(chat_id, "Yup that's a photo")
 
-TOKEN = '464773380:AAEYFPFNliELLz3DNJeHEAxa29cEas26ZnM'
+TOKEN = <insert-bot-token>
 SwapBot = telepot.Bot(TOKEN)
 MessageLoop(SwapBot, handle).run_as_thread()
 print ('Listening ...')
