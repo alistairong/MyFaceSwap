@@ -29,7 +29,7 @@ def getFaceCoordinates(input_image, upfactor=1, mode='hog', returnmode='2D'):
 
     array_of_face_locations = []
     # model='hog' quick and dirty model='cnn' slower but accurate
-    for (bottom, right, top, left) in face_recognition.face_locations(input_image,
+    for (top, right, bottom, left) in face_recognition.face_locations(input_image,
                                                                       number_of_times_to_upsample=upfactor ,model=mode):
         array_of_face_locations.append((left, top, right, bottom))
 
