@@ -1,6 +1,7 @@
 from PIL import Image
 from recogniseFace import *
 import cv2
+
 debug = False
 
 def replace_all(source, destination, scale=1.04):
@@ -9,6 +10,7 @@ def replace_all(source, destination, scale=1.04):
     destination = Image.open(destination)
 
     array_of_faces = getFaceCoordinates(destination_cv2, returnmode="1D")
+    # print(array_of_faces) #debugging
     for (left, top, right, bottom) in array_of_faces:
         left = int(left / scale)
         top = int(top / scale)
@@ -31,6 +33,7 @@ def crop_image(image_path, scale=1.04):
     bottom_result = None
 
     for (left, top, right, bottom) in getFaceCoordinates(image_path, returnmode="1D"):
+        # print(getFaceCoordinates(image_path, returnmode="1D")) #debugging
         left_result = int(left)
         top_result = int(top / (scale * 2))
         right_result = int(right * scale)
@@ -40,9 +43,12 @@ def crop_image(image_path, scale=1.04):
     return image_pil.crop((left_result, top_result, right_result, bottom_result))
 
 def faceSwap(source_path, destination_path, userid="default_" ,scale=1.04):
-    crop_image(source_path, scale).save("cropped.jpg")
-    replace_all("cropped.jpg", destination_path, scale).save(userid + 'result.jpg')
+    crop_image(source_path, scale).save('./cropped.jpg')
+    replace_all("cropped.jpg", destination_path, scale).save('./' + 'userid' + 'result.jpg')
 
-if debug:
-    faceSwap("temp.jpg", "test2.jpg")
-    Image.open('result.jpg').show()
+faceSwap("yara.jpg", "test2.jpg")
+Image.open('./' + 'userid' + 'result.jpg').show()
+
+# if debug:
+#     faceSwap("temp.jpg", "test2.jpg")
+#     Image.open('result.jpg').show()
