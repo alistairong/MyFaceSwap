@@ -1,10 +1,11 @@
 from PIL import Image
 from recogniseFace import *
 import cv2
+# from blendImages import *
 
 debug = False
 
-def replace_all(source, destination, scale=1.04):
+def replace_all(source, destination, scale=1.00):
     destination_cv2 = cv2.imread(destination)
     source = Image.open(source)
     destination = Image.open(destination)
@@ -25,7 +26,7 @@ def replace_all(source, destination, scale=1.04):
     destination = destination.convert("RGB")
     return destination
 
-def crop_image(image_path, scale=1.04):
+def crop_image(image_path, scale=1.00):
     # assert that the image only contains one face
     left_result = None
     top_result = None
@@ -42,12 +43,13 @@ def crop_image(image_path, scale=1.04):
     image_pil = Image.open(image_path)
     return image_pil.crop((left_result, top_result, right_result, bottom_result))
 
-def faceSwap(source_path, destination_path, userid="default_" ,scale=1.04):
+def faceSwap(source_path, destination_path, userid="default_" ,scale=1.00):
     crop_image(source_path, scale).save('./cropped.jpg')
-    replace_all("cropped.jpg", destination_path, scale).save('./' + 'userid' + 'result.jpg')
+    # blendImages("cropped.jpg")
+    replace_all("cropped.jpg", destination_path, scale).save('./' + 'result.jpg')
 
-faceSwap("yara.jpg", "test2.jpg")
-Image.open('./' + 'userid' + 'result.jpg').show()
+# faceSwap("yara.jpg", "barack-obama.jpg")
+#Image.open('./' + 'userid' + 'result.jpg').show()
 
 # if debug:
 #     faceSwap("temp.jpg", "test2.jpg")
