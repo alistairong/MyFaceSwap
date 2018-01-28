@@ -50,7 +50,7 @@ def handle(msg):
             dloadID = (msg['photo'][2]['file_id'])
             fileObject = SwapBot.getFile(dloadID)
             filePath = fileObject['file_path']
-            req = requests.get("https://api.telegram.org/file/bot538415466:AAF31gq4Jk8j7klzIinMG8SZe1Pat2nrcPo/" + filePath)
+            req = requests.get("https://api.telegram.org/file/bot<INSERT-TOKEN-HERE>" + filePath)
             if req.status_code == 200:
                 with open("./mask" + str(chat_id) + ".jpg", 'wb') as f:
                     f.write(req.content)
@@ -62,7 +62,7 @@ def handle(msg):
             dloadID = (msg['photo'][2]['file_id'])
             fileObject = SwapBot.getFile(dloadID)
             filePath = fileObject['file_path']
-            req = requests.get("https://api.telegram.org/file/bot538415466:AAF31gq4Jk8j7klzIinMG8SZe1Pat2nrcPo/" + filePath)
+            req = requests.get("https://api.telegram.org/file/bot<INSERT-TOKEN-HERE>" + filePath)
             if req.status_code == 200:
                 with open("./blah" + str(chat_id) + ".jpg", 'wb') as f:
                     f.write(req.content)
@@ -77,7 +77,7 @@ def handle(msg):
         elif content_type == 'photo' and not idList[chat_id].isAnImageSet == True:
             SwapBot.sendMessage(chat_id, "Great photo, but there is nothing I can swap onto it. Use the /set command first")
 
-TOKEN = "538415466:AAF31gq4Jk8j7klzIinMG8SZe1Pat2nrcPo"
+TOKEN = "<INSERT-TOKEN-HERE>"
 SwapBot = telepot.Bot(TOKEN)
 MessageLoop(SwapBot, handle).run_as_thread()
 print ('Listening ...')
