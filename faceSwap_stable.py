@@ -35,8 +35,8 @@ def crop_image(image_path, scale=1.00):
 
     for (left, top, right, bottom) in getFaceCoordinates(image_path, returnmode="1D"):
         # print(getFaceCoordinates(image_path, returnmode="1D")) #debugging
-        left_result = int(left)
-        top_result = int(top / (scale * 2))
+        left_result = int(left / scale)
+        top_result = int(top / (scale))
         right_result = int(right * scale)
         bottom_result = int(bottom * scale)
 
